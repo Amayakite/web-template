@@ -1,0 +1,9 @@
+// 这里可以替换elementPlus的默认主题
+$primary: #df00fc;
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'primary': (
+      'base': $primary,
+    ),
+  ),
+);

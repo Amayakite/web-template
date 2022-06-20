@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    // 可以直接导入export=xxx的模块
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@/*":["./src/*"],
+      "@components/*":["./src/components/*"],
+      "@utils/*":["./src/utils/*"],
+      "@pages/*":["./src/pages/*"],
+      "@styles/*":["./src/styles/*"],
+      "@store/*":["./src/store/*"],
+    }
+  },
+  "include": ["vite.config.ts"]
+}
