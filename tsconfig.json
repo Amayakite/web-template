@@ -18,7 +18,6 @@
     // 添加对其他模块的支持(编辑的时候，Volar)
     "types": [
       "element-plus/global",
-      "@types/lodash",
     ],
     // 路径别名设置
     "paths": {

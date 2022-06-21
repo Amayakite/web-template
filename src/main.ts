@@ -5,7 +5,9 @@ import '@styles/index.scss';
 import router from '@/router';
 import { store } from '@/store';
 import { register } from '@/config/register';
-
+//引入Elmessage和Elloading的css样式文件 不然有问题
+import 'element-plus/theme-chalk/el-loading.css';
+import 'element-plus/theme-chalk/el-message.css';
 const app = createApp(App);
 
 // Pinia 插件
