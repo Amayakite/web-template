@@ -3,6 +3,5 @@
     "endOfLine": "auto",
     "singleQuote": true,
     "trailingComma": "none",
-    "tabWidth": 4,
-    "message":"这个文件不能删"
+    "tabWidth": 4
 }
