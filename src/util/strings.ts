@@ -62,4 +62,39 @@ export default class StringUtil {
     static isNotEmpty = (str?: string): boolean => {
         return !StringUtil.isEmpty(str);
     };
+
+    /**
+     * 生成一个随机的UUID
+     * @param len  字符串长度 默认32
+     * @param withHyphen  是否带中横线 默认true，如果需要中横线则字符串长度必须等于32位(返回值为36位)
+     * @returns 随机的UUID
+     */
+    static randomUUID = (len = 32, withHyphen = true) => {
+        let uuid = '';
+        for (let i = 0; i < len; i++) {
+            uuid += Math.floor(Math.random() * 16).toString(16);
+        }
+        if (len === 32 && withHyphen) {
+            return uuid.replace(
+                /([\w]{8})([\w]{4})([\w]{4})([\w]{4})([\w]{12})/,
+                '$1-$2-$3-$4-$5'
+            );
+        }
+        return uuid;
+    };
+    /**
+     * 生成随机字符串
+     * @param len 长度，默认是16
+     * @returns 随机字符串
+     */
+    static randomString = (len = 16): string => {
+        // 默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
+        const $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+        const maxPos = $chars.length;
+        let pwd = '';
+        for (let i = 0; i < len; i++) {
+            pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+        }
+        return pwd;
+    };
 }

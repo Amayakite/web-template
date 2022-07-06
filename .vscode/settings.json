@@ -1,14 +1,12 @@
 {
-    "editor.codeActionsOnSave": {
-        "source.fixAll": true,
-        "source.fixAll.eslint": true
-    },
+    // "editor.codeActionsOnSave": {
+    //     "source.fixAll": true,
+    //     "source.fixAll.eslint": true
+    // },
     "eslint.alwaysShowStatus": true,
     "eslint.validate": [
         "vue",
-        "javascript",
-        "javascriptreact",
-        "html"
+        "typescript"
     ],
     "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -43,7 +41,7 @@
     "volar.autoCompleteRefs": true,
     "volar.codeLens.scriptSetupTools": true,
     // 禁用所有css验证，交给插件处理
-    "css.validate": false,
-    "less.validate": false,
-    "scss.validate": false
+    // "css.validate": false,
+    // "less.validate": false,
+    // "scss.validate": false
 }
