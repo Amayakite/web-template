@@ -22,7 +22,7 @@ for (const file of envFiles) {
 }
 
 // vite启动时监听的端口
-const ViteClitentPort = Number(process.env.VITE_CLI_PORT);
+const ViteClientPort = Number(process.env.VITE_CLI_PORT);
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -41,7 +41,7 @@ export default defineConfig({
     server: {
         host: '0.0.0.0', // port
         open: false, // 是否自动打开浏览器
-        port: ViteClitentPort, // 端口
+        port: ViteClientPort, // 端口
         [process.env.VITE_BASE_API]: {
             // 需要代理的路径   例如 '/api'
             target: `${process.env.VITE_BASE_PATH}:${process.env.VITE_SERVER_PORT}/`, // 代理到 目标路径
