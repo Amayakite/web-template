@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import App from './App.vue';
+import 'normalize.css';
 // 自定义全局样式
 import '@styles/index.scss';
 import router from '@/router';

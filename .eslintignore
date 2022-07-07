@@ -13,3 +13,4 @@ Dockerfile
 /docs
 /bin
 /dist/*
+components.d.ts
