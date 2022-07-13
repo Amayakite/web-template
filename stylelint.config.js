@@ -15,5 +15,12 @@ module.exports = {
         ],
         'declaration-block-trailing-semicolon': null,
         'no-descending-specificity': null
-    }
+    },
+    // 排除
+    ignoreFiles: [
+        // node_modules
+        'node_modules/**',
+        // dist
+        'dist/**'
+    ]
 };
