@@ -15,6 +15,9 @@ export const register = (app: App<Element>) => {
         // console.log(iconName);
     }
     console.log('init success');
+    for (const envKey in import.meta.env) {
+        console.log(envKey, import.meta.env[envKey]);
+    }
     // const result = _.cloneDeep({ a: '张三', b: '李四' });
     // 判断字符串是否为空
     // console.log(_.isEmpty('   '));
