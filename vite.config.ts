@@ -6,7 +6,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import path from 'path';
 import fs from 'fs';
 import dotenv from 'dotenv';
-import eslintPlugin from 'vite-plugin-eslint';
+import ESLintPlugin from '@modyqyw/vite-plugin-eslint';
 
 // 获取环境变量
 const env = process.env.NODE_ENV || 'development';
@@ -53,15 +53,17 @@ export default defineConfig({
     // 构建时的配置
     build: {
         sourcemap: false,
-        minify: 'terser',
+        // 使用esbuild来构建，速度可以比terser快20~40%
+        // 如果需要使用tester的话,需要先安装下：pnpm i -D terser
+        minify: 'esbuild',
         // 块大小警告的限制(默认500，单位kb)
-        chunkSizeWarningLimit: 1500,
-        terserOptions: {
-            compress: {
-                drop_console: true,
-                drop_debugger: true
-            }
-        }
+        chunkSizeWarningLimit: 1500
+        // terserOptions: {
+        //     compress: {
+        //         drop_console: true,
+        //         drop_debugger: true
+        //     }
+        // },
         // rollupOptions: {
         //     output: {
         //         manualChunks(id) {
@@ -111,8 +113,9 @@ export default defineConfig({
             ]
         }),
         // EsLint
-        eslintPlugin({
-            include: ['src/**/*.js', 'src/**/*.vue', 'src/*.js', 'src/*.vue']
+        ESLintPlugin({
+            include: ['src/**/*.js', 'src/**/*.vue', 'src/*.js', 'src/*.vue'],
+            fix: true
         })
     ]
 });
