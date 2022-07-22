@@ -42,12 +42,27 @@ export default defineConfig({
         host: '0.0.0.0', // port
         open: false, // 是否自动打开浏览器
         port: ViteClientPort, // 端口
-        [process.env.VITE_BASE_API]: {
+        proxy: {
             // 需要代理的路径   例如 '/api'
-            target: `${process.env.VITE_BASE_PATH}:${process.env.VITE_SERVER_PORT}/`, // 代理到 目标路径
-            changeOrigin: true,
-            rewrite: (path: string) =>
-                path.replace(new RegExp('^' + process.env.VITE_BASE_API), '')
+            [process.env.VITE_BASE_API]: {
+                target: `${process.env.VITE_BASE_PATH}:${process.env.VITE_SERVER_PORT}/`, // 代理到 目标路径
+                changeOrigin: true,
+                rewrite: (path: string) =>
+                    path.replace(
+                        new RegExp('^' + process.env.VITE_BASE_API),
+                        ''
+                    ),
+                ws: true
+            },
+            [process.env.VITE_BASE_RESOURCE_API]: {
+                target: `${process.env.VITE_BASE_PATH}:${process.env.VITE_SERVER_PORT}/`, // 代理到 目标路径
+                changeOrigin: true,
+                rewrite: (path: string) =>
+                    path.replace(
+                        new RegExp('^' + process.env.VITE_BASE_RESOURCE_API),
+                        ''
+                    )
+            }
         }
     },
     // 构建时的配置

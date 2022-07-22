@@ -2,8 +2,12 @@ import { useUserStore } from '@store/modules/user';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { ElMessage, ElMessageBox } from 'element-plus';
 
-const service = axios.create({
-    baseURL: process.env.VITE_BASE_API, // api的base_url
+export const service = axios.create({
+    baseURL: import.meta.env.VITE_BASE_API || '', // api的base_url
+    timeout: 99999 // 请求超时时间
+});
+export const resourceService = axios.create({
+    baseURL: import.meta.env.VITE_BASE_RESOURCE_API || '', // api的base_url
     timeout: 99999 // 请求超时时间
 });
 let activeAxios = 0; // 当前活跃的axios实例数量
@@ -84,6 +88,7 @@ interface HttpResponse<T> {
 // http response 拦截器
 service.interceptors.response.use(
     (response: AxiosResponse<HttpResponse<any>, any>) => {
+        console.log('response:', response);
         const userStore = useUserStore();
         closeLoading();
         if (response.headers['token'] !== undefined) {

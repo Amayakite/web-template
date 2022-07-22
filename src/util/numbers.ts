@@ -10,4 +10,12 @@ export default class NumbersUtil {
     static random(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
+    /**
+     * 生成指定范围的随机整数，最小为0
+     * @param max  最大值
+     * @returns  返回一个随机数
+     */
+    static randomInputMax(max: number): number {
+        return Math.floor(Math.random() * (max + 1));
+    }
 }
