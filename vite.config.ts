@@ -7,6 +7,7 @@ import AutoImport from 'unplugin-auto-import/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
+import VueJsx from '@vitejs/plugin-vue-jsx';
 
 // 获取环境变量
 const env = process.env.NODE_ENV || 'development';
@@ -22,7 +23,6 @@ for (const file of envFiles) {
 }
 
 // vite启动时监听的端口
-const ViteClientPort = Number(process.env.VITE_CLI_PORT);
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -41,7 +41,8 @@ export default defineConfig({
     server: {
         host: '0.0.0.0', // port
         open: false, // 是否自动打开浏览器
-        port: ViteClientPort, // 端口
+        // @ts-ignore
+        port: process.env.VITE_CLI_PORT, // 端口
         proxy: {
             // 需要代理的路径   例如 '/api'
             [process.env.VITE_BASE_API]: {
@@ -113,6 +114,8 @@ export default defineConfig({
     plugins: [
         // Vue基本的组件
         vue(),
+        // 支持Jsx、Tsx
+        VueJsx({}),
         // 自动导入-按需引入ElementPlus组件
         AutoImport({
             resolvers: [ElementPlusResolver()],

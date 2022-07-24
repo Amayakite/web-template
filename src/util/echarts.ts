@@ -1,13 +1,15 @@
 import * as echarts from 'echarts';
 import blue from '@/assets/echarts-blue-theme.json';
 import orange from '@/assets/echarts-orange-theme.json';
-import { ref, Ref } from 'vue';
-echarts.registerTheme('blue', blue);
-echarts.registerTheme('orange', orange);
+import roma from '@/assets/echarts-roma-theme.json';
 export enum EchartsTheme {
     blue = 'blue',
-    orange = 'orange'
+    orange = 'orange',
+    roma = 'roma'
 }
+echarts.registerTheme(EchartsTheme.blue, blue);
+echarts.registerTheme(EchartsTheme.orange, orange);
+echarts.registerTheme(EchartsTheme.roma, roma);
 /**
  * 用户的语言
  */
@@ -15,10 +17,13 @@ const userLang = navigator.language.split('-')[0].toLocaleUpperCase();
 
 export class MyEcharts {
     private constructor() {}
-    private echartsComponent!: Ref<echarts.ECharts>;
-    private setEchartsComponent(echartsComponent: Ref<echarts.ECharts>) {
+    private echartsComponent!: echarts.ECharts;
+    private setEchartsComponent(echartsComponent: echarts.ECharts) {
         this.echartsComponent = echartsComponent;
         return this;
+    }
+    public getEchartsComponent() {
+        return this.echartsComponent;
     }
     /**
      * 实例化echarts
@@ -29,7 +34,7 @@ export class MyEcharts {
      */
     static init<T extends HTMLElement>(
         dom: T,
-        option: echarts.EChartsOption,
+        option: echarts.EChartsCoreOption,
         theme = EchartsTheme.blue
     ) {
         // 获取用户的语言
@@ -42,34 +47,32 @@ export class MyEcharts {
         window.addEventListener('resize', () => {
             myChart.resize();
         });
-        return new MyEcharts().setEchartsComponent(
-            // @ts-ignore
-            ref<echarts.ECharts>(myChart)
-        );
+
+        return new MyEcharts().setEchartsComponent(myChart);
     }
     /**
      * 销毁echarts
      */
     dispose() {
         // 取消监听window的resize事件
-        window.removeEventListener('resize', () => {
-            this.echartsComponent.value.resize();
-        });
-        this.echartsComponent.value.dispose();
+        // window.removeEventListener('resize', () => {
+        //     this.echartsComponent.value.resize();
+        // });
+        this.echartsComponent.dispose();
     }
     /**
      * 更新echarts的option
      * @param option 更新的option
      */
     setOption(option: echarts.EChartsOption) {
-        this.echartsComponent.value.setOption(option);
+        this.echartsComponent.setOption(option);
     }
     /**
      * 获取echarts的option
      * @returns echarts的option
      */
     getOption(): echarts.EChartsCoreOption {
-        return this.echartsComponent.value.getOption();
+        return this.echartsComponent.getOption();
     }
     /**
      * 更新主题
@@ -78,12 +81,12 @@ export class MyEcharts {
     changeTheme(theme: EchartsTheme) {
         /* FIXME 这里有可能会出问题 */
         const option = this.getOption();
-        this.echartsComponent.value.dispose();
-        this.echartsComponent.value = echarts.init(
-            this.echartsComponent.value.getDom(),
+        this.echartsComponent.dispose();
+        this.echartsComponent = echarts.init(
+            this.echartsComponent.getDom(),
             theme,
             { locale: userLang }
         );
-        this.echartsComponent.value.setOption(option);
+        this.echartsComponent.setOption(option);
     }
 }
