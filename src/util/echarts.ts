@@ -1,3 +1,4 @@
+'use strict';
 import * as echarts from 'echarts';
 import blue from '@/assets/echarts-blue-theme.json';
 import orange from '@/assets/echarts-orange-theme.json';
@@ -16,12 +17,31 @@ echarts.registerTheme(EchartsTheme.roma, roma);
 const userLang = navigator.language.split('-')[0].toLocaleUpperCase();
 
 export class MyEcharts {
-    private constructor() {}
+    private constructor(uid: number) {
+        this.uid = uid;
+    }
     private echartsComponent!: echarts.ECharts;
     private setEchartsComponent(echartsComponent: echarts.ECharts) {
         this.echartsComponent = echartsComponent;
         return this;
     }
+    /**
+     * 用作统一监听window的resize事件
+     */
+    private static resizeMap: Map<number, MyEcharts> = new Map();
+    static {
+        window.addEventListener('resize', () => {
+            // 遍历resizeMap
+            MyEcharts.resizeMap.forEach((value) => {
+                value.getEchartsComponent().resize();
+            });
+        });
+    }
+    /**
+     * 唯一id
+     */
+    private uid: number;
+
     public getEchartsComponent() {
         return this.echartsComponent;
     }
@@ -43,21 +63,18 @@ export class MyEcharts {
             locale: userLang
         });
         myChart.setOption(option);
-        // 监听window的resize事件
-        window.addEventListener('resize', () => {
-            myChart.resize();
-        });
-
-        return new MyEcharts().setEchartsComponent(myChart);
+        const uid = new Date().getTime();
+        const result = new MyEcharts(uid).setEchartsComponent(myChart);
+        // 获取当前时间戳
+        MyEcharts.resizeMap.set(uid, result);
+        return result;
     }
     /**
      * 销毁echarts
      */
     dispose() {
-        // 取消监听window的resize事件
-        // window.removeEventListener('resize', () => {
-        //     this.echartsComponent.value.resize();
-        // });
+        // 删除全局变量中的对象
+        MyEcharts.resizeMap.delete(this.uid);
         this.echartsComponent.dispose();
     }
     /**
