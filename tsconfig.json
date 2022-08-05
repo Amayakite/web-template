@@ -27,8 +27,8 @@
       "@components/*": [
         "./src/components/*"
       ],
-      "@utils/*": [
-        "./src/utils/*"
+      "@util/*": [
+        "./src/util/*"
       ],
       "@pages/*": [
         "./src/pages/*"

@@ -1,4 +1,3 @@
-'use strict';
 import * as echarts from 'echarts';
 import blue from '@/assets/echarts-blue-theme.json';
 import orange from '@/assets/echarts-orange-theme.json';
@@ -17,7 +16,7 @@ echarts.registerTheme(EchartsTheme.roma, roma);
 const userLang = navigator.language.split('-')[0].toLocaleUpperCase();
 
 export class MyEcharts {
-    private constructor(uid: number) {
+    private constructor(uid: string) {
         this.uid = uid;
     }
     private echartsComponent!: echarts.ECharts;
@@ -28,7 +27,7 @@ export class MyEcharts {
     /**
      * 用作统一监听window的resize事件
      */
-    private static resizeMap: Map<number, MyEcharts> = new Map();
+    private static resizeMap: Map<string, MyEcharts> = new Map();
     static {
         window.addEventListener('resize', () => {
             // 遍历resizeMap
@@ -40,7 +39,7 @@ export class MyEcharts {
     /**
      * 唯一id
      */
-    private uid: number;
+    private uid: string;
 
     public getEchartsComponent() {
         return this.echartsComponent;
@@ -57,16 +56,26 @@ export class MyEcharts {
         option: echarts.EChartsCoreOption,
         theme = EchartsTheme.blue
     ) {
-        // 获取用户的语言
-        const myChart = echarts.init(dom, theme, {
-            // 根据用户的语言设置echarts的语言
-            locale: userLang
-        });
-        myChart.setOption(option);
-        const uid = new Date().getTime();
-        const result = new MyEcharts(uid).setEchartsComponent(myChart);
-        // 获取当前时间戳
-        MyEcharts.resizeMap.set(uid, result);
+        // 先判断是否已经实例化过
+        let myChart = echarts.getInstanceByDom(dom);
+        let result: MyEcharts;
+        if (myChart !== null && myChart !== undefined) {
+            const id = myChart.getId();
+            // 这里没有的话就应该报错之类的吧
+            result = MyEcharts.resizeMap.get(id)!;
+        } else {
+            // 获取用户的语言
+            myChart = echarts.init(dom, theme, {
+                // 根据用户的语言设置echarts的语言
+                locale: userLang
+            });
+            // 判断是否成功
+            myChart.setOption(option);
+            result = new MyEcharts(myChart.getId()).setEchartsComponent(
+                myChart
+            );
+            MyEcharts.resizeMap.set(myChart.getId(), result);
+        }
         return result;
     }
     /**

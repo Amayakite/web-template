@@ -32,7 +32,7 @@ export default defineConfig({
             '@/': `${path.resolve(__dirname, 'src')}/`,
             '@styles/': `${path.resolve(__dirname, 'src/styles')}/`,
             '@components/': `${path.resolve(__dirname, 'src/components')}/`,
-            '@utils/': `${path.resolve(__dirname, 'src/utils')}/`,
+            '@util/': `${path.resolve(__dirname, 'src/util')}/`,
             '@pages/': `${path.resolve(__dirname, 'src/pages')}/`,
             '@store/': `${path.resolve(__dirname, 'src/store')}/`
         }
